@@ -1,0 +1,7 @@
+{
+	"name": "CharacterLoad",
+	"emitLegacyScripts": false,
+	"tree": {
+		"$path": "Source"
+	}
+}
