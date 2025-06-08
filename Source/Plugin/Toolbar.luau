@@ -4,8 +4,8 @@ local plugin = GetPlugin
 
 local module = {}
 
-local toolbar = plugin:CreateToolbar("Character Load")
-local button = toolbar:CreateButton("Character Load", "Opens the Character Load menu", "rbxassetid://75139192384475")
+local toolbar = plugin:CreateToolbar("Load Character")
+local button = toolbar:CreateButton("Load Character", "Opens the Load Character menu", "rbxassetid://75139192384475")
 button.ClickableWhenViewportHidden = true
 
 module.Toolbar = toolbar

@@ -1,6 +1,6 @@
-# Character Load
+# Load Character
 
-![Character Load](./Assets/CharacterLoad%20Wide.png)
+![Load Character](./Assets/CharacterLoad%20Wide.png)
 
 A simple tool to insert a player's character in either R6 or R15. Supports both username and user ID.
 
