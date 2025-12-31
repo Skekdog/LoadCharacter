@@ -204,6 +204,13 @@ local function tryLoadCharacter(userId: number, mode: "R6" | "R15"): ()
 	model.Name = tostring(userId)
 	model:PivotTo(workspace.CurrentCamera.Focus)
 
+	-- Loading R6 characters has them locked for some reason, R15 characters are unlocked.
+	for _, descendant in model:GetDescendants() do
+		if descendant:IsA("BasePart") then
+			descendant.Locked = false
+		end
+	end
+
 	model.Parent = workspace
 
 	ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit)
