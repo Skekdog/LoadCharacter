@@ -160,6 +160,8 @@ local function syncColours()
 end
 
 local userIdCache: {[string]: number} = {}
+local usernameCache: {[number]: string} = {}
+
 local function tryGetUserIdFromText(text: string): number?
 	if userIdCache[text] then
 		return userIdCache[text]
@@ -174,10 +176,29 @@ local function tryGetUserIdFromText(text: string): number?
 
 	if typeof(result) == "number" then
 		userIdCache[text] = result
+		usernameCache[result] = text
 		return result
 	end
 
 	updateOutputText(result:split("Players:GetUserIdFromNameAsync() failed: ")[2], "Error")
+
+	return nil
+end
+
+local function tryGetUserNameFromId(id: number): string?
+	if usernameCache[id] then
+		return usernameCache[id]
+	end
+
+	local success, result = pcall(Players.GetNameFromUserIdAsync, Players, id)
+
+	if success then
+		usernameCache[id] = result
+		userIdCache[result] = id
+		return result
+	end
+
+	updateOutputText(result:split("Players:GetnameFromUserIdAsync() failed: ")[2], "Error")
 
 	return nil
 end
@@ -204,7 +225,7 @@ local function tryLoadCharacter(userId: number, mode: "R6" | "R15"): ()
 		return warn("Unable to create undo waypoint, possibly due to another character already being loaded. Load aborted.")
 	end
 
-	model.Name = tostring(userId)
+	model.Name = tryGetUserNameFromId(userId) or tostring(userId)
 	model:PivotTo(workspace.CurrentCamera.Focus)
 
 	-- Loading R6 characters has them locked for some reason, R15 characters are unlocked.
