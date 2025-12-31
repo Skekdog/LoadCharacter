@@ -1,5 +1,6 @@
 local ChangeHistoryService = game:GetService("ChangeHistoryService")
 local Players = game:GetService("Players")
+local Selection = game:GetService("Selection")
 local GetPlugin = require("../Lib/GetPlugin")
 
 local plugin = GetPlugin
@@ -214,6 +215,10 @@ local function tryLoadCharacter(userId: number, mode: "R6" | "R15"): ()
 	end
 
 	model.Parent = workspace
+
+	local selection = Selection:Get()
+	table.insert(selection, model)
+	Selection:Set(selection)
 
 	ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit)
 	updateOutputText("Successfully loaded character!", "Success")
