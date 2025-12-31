@@ -41,7 +41,7 @@ local function syncOne(v: GuiObject | UIStroke, theme: StudioTheme)
 	end
 end
 
-local widget = plugin:CreateDockWidgetPluginGui("Character Load", DockWidgetPluginGuiInfo.new(
+local widget = plugin:CreateDockWidgetPluginGuiAsync("Character Load", DockWidgetPluginGuiInfo.new(
 	Enum.InitialDockState.Float,
 	false,
 	true,
@@ -187,15 +187,15 @@ local function tryLoadCharacter(userId: number, mode: "R6" | "R15"): ()
 	if descriptionCache[userId] then
 		description = descriptionCache[userId]
 	else
-		local _, result: HumanoidDescription | string = pcall(Players.GetHumanoidDescriptionFromUserId, Players, userId)
+		local _, result: HumanoidDescription | string = pcall(Players.GetHumanoidDescriptionFromUserIdAsync, Players, userId)
 		if typeof(result) == "string" then
 			return updateOutputText(result:split("Players:GetHumanoidDescriptionFromUserId() ")[2], "Error")
 		end
 		description = result
 	end
 
-	local model = Players:CreateHumanoidModelFromDescription(description, if mode == "R6" then Enum.HumanoidRigType.R6 else Enum.HumanoidRigType.R15)
-	
+	local model = Players:CreateHumanoidModelFromDescriptionAsync(description, if mode == "R6" then Enum.HumanoidRigType.R6 else Enum.HumanoidRigType.R15)
+
 	local recording = ChangeHistoryService:TryBeginRecording("Load character")
 	if not recording then
 		return warn("Unable to create undo waypoint, possibly due to another character already being loaded. Load aborted.")
