@@ -183,6 +183,8 @@ end
 
 local descriptionCache: {[number]: HumanoidDescription} = {}
 local function tryLoadCharacter(userId: number, mode: "R6" | "R15"): ()
+	updateOutputText("Loading character...", "None")
+
 	local description: HumanoidDescription
 	if descriptionCache[userId] then
 		description = descriptionCache[userId]
