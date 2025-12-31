@@ -202,6 +202,8 @@ local function tryLoadCharacter(userId: number, mode: "R6" | "R15"): ()
 	end
 
 	model.Name = tostring(userId)
+	model:PivotTo(workspace.CurrentCamera.Focus)
+
 	model.Parent = workspace
 
 	ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit)
